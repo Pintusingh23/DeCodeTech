@@ -1,240 +1,271 @@
-import { useState } from "react";
-import { PlayCircle, BookOpen, Clock, Star, ChevronRight, Check, Zap } from "lucide-react";
+import React from "react";
+import { Link } from "react-router-dom";
+import { BookOpen, Clock, ChevronRight, Layout, FileCode, Atom, Server, Globe, Layers, Zap, Code2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { useState, useEffect } from 'react';
+import { calculateTotalDuration } from '../../utils/durationCalc';
 
-const courses = [
+const webCourses = [
   {
+    id: "htmlcss",
     title: "HTML & CSS Mastery",
     level: "Beginner",
-    lessons: 24,
-    duration: "8 hours",
     description: "Build beautiful, responsive websites with modern HTML5 and CSS3 techniques.",
-    category: "Frontend",
-    rating: 4.8,
-    students: 1250,
-    popular: true
+    icon: Layout,
+    path: "/web-development/html-css",
+    color: "from-[#7560C7] to-[#9B8DE3]",
+    borderAccent: "border-[#C8C1F0]/20",
+    bgAccent: "bg-[rgba(117,96,199,0.15)] text-[#9B8DE3]",
   },
   {
-    title: "JavaScript Deep Dive",
-    level: "Beginner",
-    lessons: 36,
-    duration: "14 hours",
+    id: "javascript",
+    title: "JavaScript",
+    level: "Intermediate",
     description: "Master JavaScript fundamentals, ES6+ features, and DOM manipulation.",
-    category: "Frontend",
-    rating: 4.9,
-    students: 1843,
-    popular: true
+    icon: FileCode,
+    path: "/web-development/javascript",
+    color: "from-yellow-400 to-amber-500",
+    borderAccent: "border-[#C8C1F0]/20",
+    bgAccent: "bg-[rgba(117,96,199,0.15)] text-[#9B8DE3]",
   },
   {
+    id: "react",
     title: "React.js Pro",
-    level: "Intermediate",
-    lessons: 45,
-    duration: "18 hours",
-    description: "Build interactive UIs with React hooks, context API, and advanced patterns.",
-    category: "Frontend",
-    rating: 4.7,
-    students: 2310
-  },
-  {
-    title: "Node.js & Express",
-    level: "Intermediate",
-    lessons: 38,
-    duration: "16 hours",
-    description: "Create robust backend services with Node.js, Express, and REST APIs.",
-    category: "Backend",
-    rating: 4.6,
-    students: 1567
-  },
-  {
-    title: "MongoDB for Developers",
-    level: "Intermediate",
-    lessons: 30,
-    duration: "12 hours",
-    description: "Master NoSQL databases with MongoDB, Mongoose, and data modeling.",
-    category: "Backend",
-    rating: 4.5,
-    students: 982
-  },
-  {
-    title: "Full Stack MERN Masterclass",
     level: "Advanced",
-    lessons: 52,
-    duration: "22 hours",
-    description: "End-to-end development with MongoDB, Express, React, and Node.js.",
-    category: "Full Stack",
-    rating: 4.9,
-    students: 2875,
-    popular: true
+    description: "Build interactive UIs with React hooks, context API, and advanced patterns.",
+    icon: Atom,
+    path: "/web-development/reactjs",
+    color: "from-cyan-400 to-blue-500",
+    borderAccent: "border-[#C8C1F0]/20",
+    bgAccent: "bg-[rgba(117,96,199,0.15)] text-[#9B8DE3]",
   },
+  {
+    id: "node",
+    title: "Node.js & Express",
+    level: "Advanced",
+    description: "Create robust backend services with Node.js, Express, and REST APIs.",
+    icon: Server,
+    path: "/web-development/nodejs",
+    color: "from-[#7560C7] to-[#9B8DE3]",
+    borderAccent: "border-[#C8C1F0]/20",
+    bgAccent: "bg-[rgba(117,96,199,0.15)] text-[#9B8DE3]",
+  }
 ];
 
-const WebDevelopment = () => {
-  const [activeTab, setActiveTab] = useState("All Web Courses");
+const topics = [
+  { icon: Globe, label: "HTML & CSS" },
+  { icon: FileCode, label: "JavaScript ES6+" },
+  { icon: Atom, label: "React.js" },
+  { icon: Server, label: "Node.js" },
+];
 
-  const filteredCourses = activeTab === "All Web Courses" 
-    ? courses 
-    : courses.filter(course => course.category === activeTab);
-
-  return (
-    <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen">
-      <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="text-center mb-16">
-          <span className="inline-block bg-purple-100 text-purple-800 px-4 py-1 rounded-full text-sm font-medium mb-4">
-            Start Your Coding Journey
-          </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Master <span className="text-purple-600">Web Development</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Learn modern web technologies with our project-based courses and build real-world applications.
-          </p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {["All Web Courses", "Frontend", "Backend", "Full Stack"].map((tab) => (
-            <button
-              key={tab}
-              className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                activeTab === tab 
-                  ? "bg-purple-600 text-white shadow-lg shadow-purple-100" 
-                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
-              }`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-  {filteredCourses.map((course, index) => (
-    <div 
-      key={index} 
-      className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 ${
-        course.popular ? "ring-2 ring-purple-500" : ""
-      }`}
-      onClick={() => course.title === "HTML & CSS Mastery" && navigate('/HTMLCSSCourse')}
-      style={{ cursor: 'pointer' }}
-    >
-              <div className="relative">
-                <div className="h-48 bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center">
-                  <PlayCircle className="w-16 h-16 text-white opacity-90" />
-                </div>
-                {course.popular && (
-                  <div className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold flex items-center">
-                    <Zap className="w-3 h-3 mr-1" /> Popular
-                  </div>
-                )}
-              </div>
-              
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-sm font-medium px-3 py-1 bg-purple-100 text-purple-800 rounded-full">
-                    {course.level}
-                  </span>
-                  <div className="flex items-center text-yellow-500">
-                    <Star className="w-4 h-4 fill-current" />
-                    <span className="ml-1 text-gray-700 font-medium">{course.rating}</span>
-                  </div>
-                </div>
-                
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
-                <p className="text-gray-600 mb-4">{course.description}</p>
-                
-                <div className="flex justify-between text-sm text-gray-500 mb-6">
-                  <span className="flex items-center gap-1">
-                    <BookOpen className="w-4 h-4" /> {course.lessons} lessons
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" /> {course.duration}
-                  </span>
-                </div>
-                
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">{course.students.toLocaleString()} students</span>
-                  <button className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg font-medium flex items-center transition-colors duration-300">
-                    Enroll <ChevronRight className="w-4 h-4 ml-1" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-20 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl overflow-hidden shadow-2xl">
-          <div className="p-8 md:p-12 lg:flex">
-            <div className="lg:w-2/3">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Complete 2024 Web Developer Bootcamp</h2>
-              <p className="text-purple-100 mb-6 max-w-2xl">
-                The only course you need to go from beginner to full-stack developer. Includes 50+ projects, 300+ hours of content, and career guidance.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="flex items-center text-purple-100">
-                  <Check className="w-5 h-5 mr-2" /> HTML5 & CSS3
-                </div>
-                <div className="flex items-center text-purple-100">
-                  <Check className="w-5 h-5 mr-2" /> JavaScript ES6+
-                </div>
-                <div className="flex items-center text-purple-100">
-                  <Check className="w-5 h-5 mr-2" /> React 18
-                </div>
-                <div className="flex items-center text-purple-100">
-                  <Check className="w-5 h-5 mr-2" /> Node.js & Express
-                </div>
-                <div className="flex items-center text-purple-100">
-                  <Check className="w-5 h-5 mr-2" /> MongoDB & Mongoose
-                </div>
-                <div className="flex items-center text-purple-100">
-                  <Check className="w-5 h-5 mr-2" /> Deployment & DevOps
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap gap-4">
-                <button className="bg-white text-purple-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-bold flex items-center transition-colors duration-300">
-                  Start Learning <ChevronRight className="w-5 h-5 ml-1" />
-                </button>
-                <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:bg-opacity-10 px-6 py-3 rounded-lg font-bold">
-                  View Curriculum
-                </button>
-              </div>
-            </div>
-            
-            <div className="hidden lg:block lg:w-1/3 relative">
-              <div className="absolute -right-10 -top-10 w-64 h-64 bg-purple-500 rounded-full opacity-20"></div>
-              <div className="absolute -right-5 -bottom-5 w-48 h-48 bg-indigo-400 rounded-full opacity-20"></div>
-              <div className="relative z-10 h-full flex items-center justify-center">
-                <div className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl border border-white border-opacity-20">
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-2">85% OFF</div>
-                    <div className="text-purple-200 mb-4">Limited time offer</div>
-                    <div className="text-white font-medium">
-                      <span className="line-through opacity-70">$299.99</span>
-                      <span className="text-2xl ml-2">$49.99</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <div className="text-3xl font-bold text-purple-600 mb-2">10,000+</div>
-            <div className="text-gray-600">Happy Students</div>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <div className="text-3xl font-bold text-purple-600 mb-2">150+</div>
-            <div className="text-gray-600">Hours of Content</div>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <div className="text-3xl font-bold text-purple-600 mb-2">4.9</div>
-            <div className="text-gray-600">Average Rating</div>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <div className="text-3xl font-bold text-purple-600 mb-2">24/7</div>
-            <div className="text-gray-600">Support</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.3 } },
 };
 
-export default WebDevelopment;
+const itemVariants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 14 } },
+};
+
+export default function WebDevelopment() {
+  const [stats, setStats] = useState({
+    "htmlcss": { lessons: 0, duration: "0 min" },
+    "javascript": { lessons: 0, duration: "0 min" },
+    "react": { lessons: 0, duration: "0 min" },
+    "node": { lessons: 0, duration: "0 min" }
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWebStats = async () => {
+      try {
+        const endpoints = [
+          'http://localhost:5001/api/htmlcss/lecture',
+          'http://localhost:5001/api/htmlcss/lab',
+          'http://localhost:5001/api/javascript/lecture',
+          'http://localhost:5001/api/javascript/lab',
+          'http://localhost:5001/api/react/lecture',
+          'http://localhost:5001/api/react/lab',
+          'http://localhost:5001/api/node/lecture',
+          'http://localhost:5001/api/node/lab'
+        ];
+
+        const results = await Promise.allSettled(endpoints.map(ep => fetch(ep).then(res => res.json())));
+        
+        const getData = (index) => results[index].status === 'fulfilled' && results[index].value.data ? results[index].value.data : [];
+
+        const htmlcssLec = getData(0);
+        const htmlcssLab = getData(1);
+        const jsLec = getData(2);
+        const jsLab = getData(3);
+        const reactLec = getData(4);
+        const reactLab = getData(5);
+        const nodeLec = getData(6);
+        const nodeLab = getData(7);
+
+        setStats({
+          "htmlcss": {
+            lessons: htmlcssLec.length + htmlcssLab.length,
+            duration: calculateTotalDuration([...htmlcssLec, ...htmlcssLab])
+          },
+          "javascript": {
+            lessons: jsLec.length + jsLab.length,
+            duration: calculateTotalDuration([...jsLec, ...jsLab])
+          },
+          "react": {
+            lessons: reactLec.length + reactLab.length,
+            duration: calculateTotalDuration([...reactLec, ...reactLab])
+          },
+          "node": {
+            lessons: nodeLec.length + nodeLab.length,
+            duration: calculateTotalDuration([...nodeLec, ...nodeLab])
+          }
+        });
+
+      } catch (error) {
+        console.error("Error fetching Web Development stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWebStats();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#211D31] font-['Space_Grotesk'] relative overflow-hidden">
+
+      {/* Background blobs */}
+      <div className="absolute top-[-15%] left-[-10%] w-[500px] h-[500px] bg-orange-300/15 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-15%] right-[-10%] w-[500px] h-[500px] bg-blue-300/15 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none z-0" />
+
+      {/* ===== HERO ===== */}
+      <section className="relative pt-28 pb-16 px-6 sm:px-12 z-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+          {/* Left */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="space-y-6"
+          >
+            <div className="space-y-2">
+              <span className="text-[#9B8DE3] text-xs font-bold uppercase tracking-[0.2em]">// WEB DEVELOPMENT</span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#F8F7FF] tracking-tight leading-[1.1]">
+                Master{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-blue-600">
+                  Web Dev
+                </span>
+              </h1>
+            </div>
+            <p className="text-[#B8B2CC] text-base md:text-lg max-w-lg leading-relaxed">
+              Learn modern web technologies from frontend design to robust backend architecture — completely free.
+            </p>
+            <motion.div className="flex flex-wrap gap-3 pt-2" variants={containerVariants} initial="hidden" animate="visible">
+              {topics.map((t, i) => (
+                <motion.div key={i} variants={itemVariants}
+                  className="flex items-center gap-2 bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border border-[#C8C1F0]/20 px-3 py-1.5 rounded-full text-xs font-semibold text-[#B8B2CC] shadow-sm hover:border-orange-300 hover:text-[#9B8DE3] transition-all duration-300">
+                  <t.icon className="w-3.5 h-3.5" />{t.label}
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right: Browser mockup visual */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+            className="relative flex justify-center"
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] bg-orange-400/10 rounded-full blur-[80px] pointer-events-none" />
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="relative w-full max-w-md bg-[rgba(255,255,255,0.06)] backdrop-blur-xl rounded-2xl border border-[#C8C1F0]/20 shadow-2xl overflow-hidden"
+            >
+              {/* Browser chrome */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-[rgba(255,255,255,0.06)] border-b border-[#C8C1F0]/20">
+                <div className="w-3 h-3 rounded-full bg-red-400" />
+                <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                <div className="w-3 h-3 rounded-full bg-green-400" />
+                <div className="flex-1 mx-4 bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border border-[#C8C1F0]/20 rounded-lg px-3 py-1 text-[10px] text-[#B8B2CC] font-mono">https://mywebsite.dev</div>
+              </div>
+              {/* Page content mock */}
+              <div className="p-5 space-y-3 font-mono text-sm">
+                <div className="text-[#B8B2CC] text-[10px] uppercase tracking-wider mb-2">&lt;!DOCTYPE html&gt;</div>
+                <div><span className="text-[#9B8DE3]">&lt;h1</span><span className="text-[#B8B2CC]"> class=</span><span className="text-[#9B8DE3]">"hero"</span><span className="text-[#9B8DE3]">&gt;</span></div>
+                <div className="pl-4 text-[#F8F7FF] font-bold">Hello, World! 🌐</div>
+                <div><span className="text-[#9B8DE3]">&lt;/h1&gt;</span></div>
+                <div className="mt-3"><span className="text-[#9B8DE3]">.hero</span><span className="text-[#B8B2CC]"> {"{"}</span></div>
+                <div className="pl-4"><span className="text-orange-400">color</span><span className="text-[#B8B2CC]">: </span><span className="text-[#9B8DE3]">#f97316</span><span className="text-[#B8B2CC]">;</span></div>
+                <div className="pl-4"><span className="text-orange-400">font-size</span><span className="text-[#B8B2CC]">: </span><span className="text-[#9B8DE3]">3rem</span><span className="text-[#B8B2CC]">;</span></div>
+                <div className="text-[#B8B2CC]">{"}"}</div>
+                <motion.div animate={{ opacity: [1, 0, 1] }} transition={{ repeat: Infinity, duration: 1 }} className="w-2 h-4 bg-[rgba(117,96,199,0.15)]0 mt-2 rounded-sm" />
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.8, type: "spring" }}
+              className="absolute -bottom-4 -right-4 bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border border-[#C8C1F0]/20 rounded-xl px-4 py-2.5 shadow-lg flex items-center gap-2"
+            >
+              <Code2 className="w-4 h-4 text-[#9B8DE3]" />
+              <span className="text-xs font-bold text-[#F8F7FF]">4 Courses</span>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ===== COURSE CARDS ===== */}
+      <section className="relative pb-24 px-6 sm:px-12 z-10">
+        <div className="max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-10">
+            <h2 className="text-2xl md:text-3xl font-black text-[#F8F7FF] tracking-tight">
+              Choose Your <span className="text-[#9B8DE3]">Path</span>
+            </h2>
+            <p className="text-[#B8B2CC] text-sm mt-2">Start with the basics or pick any module that fits your level.</p>
+          </motion.div>
+
+          <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            {webCourses.map((course) => (
+              <motion.div key={course.id} variants={itemVariants}>
+                <Link to={course.path}
+                  className={`group relative block bg-[rgba(255,255,255,0.06)] backdrop-blur-xl rounded-2xl p-6 border ${course.borderAccent} shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.1)] transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-full`}
+                >
+                  <div className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-br ${course.color} rounded-bl-[100px] opacity-[0.07] group-hover:opacity-[0.14] group-hover:scale-125 transition-all duration-700`} />
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="flex justify-between items-start mb-5">
+                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${course.color} flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                        <course.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <span className={`text-[10px] font-bold uppercase tracking-wider ${course.bgAccent} px-2 py-0.5 rounded-full`}>{course.level}</span>
+                    </div>
+                    <h3 className="text-base font-bold text-[#F8F7FF] mb-2">{course.title}</h3>
+                    <p className="text-[#B8B2CC] text-xs leading-relaxed mb-4 flex-1">{course.description}</p>
+                    <div className="flex items-center gap-4 text-[#B8B2CC] text-[11px] font-semibold mb-4">
+                      <div className="flex items-center gap-1">
+                        <BookOpen className="w-3 h-3" />
+                        {loading ? '...' : stats[course.id]?.lessons || 0} Lessons
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {loading ? '...' : stats[course.id]?.duration || '0 min'}
+                      </div>
+                    </div>
+                    <div className="flex items-center text-[#F8F7FF] font-bold text-sm mt-auto group-hover:text-[#9B8DE3] transition-colors">
+                      Start <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1.5 transition-transform duration-300" />
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+}
