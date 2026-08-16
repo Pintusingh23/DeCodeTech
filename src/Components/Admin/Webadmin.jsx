@@ -17,7 +17,12 @@ const Webadmin = () => {
     try {
       setLoading(true);
       setError("");
-      const response = await fetch(API_BASE_URL);
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(API_BASE_URL, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       
       if (!response.ok) {
         if (response.status === 404) {
@@ -58,10 +63,12 @@ const Webadmin = () => {
   // Create new video
   const createVideo = async (videoData) => {
     try {
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(API_BASE_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           videoTitle: videoData.title,
@@ -86,10 +93,12 @@ const Webadmin = () => {
   // Update existing video
   const updateVideo = async (id, videoData) => {
     try {
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           videoTitle: videoData.title,
@@ -114,8 +123,12 @@ const Webadmin = () => {
   // Delete video
   const deleteVideoFromAPI = async (id) => {
     try {
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${API_BASE_URL}/${id}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       });
 
       if (!response.ok) {

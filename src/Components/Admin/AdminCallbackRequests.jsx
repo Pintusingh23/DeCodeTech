@@ -17,7 +17,8 @@ const AdminCallbackRequests = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(API_URL);
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(API_URL, { headers: { Authorization: `Bearer ${token}` } });
       const data = await response.json();
       if (data.success) {
         setRequests(data.data || []);
@@ -34,7 +35,8 @@ const AdminCallbackRequests = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this contact request?")) {
       try {
-        const response = await fetch(`${API_URL}${id}`, { method: "DELETE" });
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`${API_URL}${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
         const data = await response.json();
         
         if (data.success) {

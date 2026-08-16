@@ -20,7 +20,8 @@ const AdminDSALecture = () => {
   const fetchVideos = async () => {
     setLoading(true);
     try {
-      const response = await fetch(API_URL);
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(API_URL, { headers: { Authorization: `Bearer ${token}` } });
       const data = await response.json();
       if (data.success) {
         setLectures(data.data);
@@ -50,7 +51,10 @@ const AdminDSALecture = () => {
 
       const response = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json", 
+          "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+        },
         body: JSON.stringify(formData)
       });
       
@@ -82,7 +86,8 @@ const AdminDSALecture = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this lecture?")) {
       try {
-        const response = await fetch(`${API_URL}${id}`, { method: "DELETE" });
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`${API_URL}${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
         const data = await response.json();
         
         if (data.success) {

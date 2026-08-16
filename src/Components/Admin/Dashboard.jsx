@@ -35,8 +35,10 @@ const Dashboard = () => {
     setLoading(true);
     setError(null);
     try {
+      const token = localStorage.getItem('adminToken');
+      const fetchOpts = { headers: { "Authorization": `Bearer ${token}` } };
       // 1. Fetch Contact Requests
-      const contactRes = await fetch(`${API_BASE}/contact`).catch(() => null);
+      const contactRes = await fetch(`${API_BASE}/contact`, fetchOpts).catch(() => null);
       let fetchedContacts = [];
       if (contactRes && contactRes.ok) {
         const cData = await contactRes.json();
@@ -46,8 +48,8 @@ const Dashboard = () => {
 
       // 2. Fetch all Course Data
       const allPromises = COURSE_CONFIG.flatMap(course => [
-        fetch(`${API_BASE}${course.apiPrefix}/lecture`).then(res => res.json()).then(data => ({ courseId: course.id, type: 'lecture', data: data.data || [] })),
-        fetch(`${API_BASE}${course.apiPrefix}/lab`).then(res => res.json()).then(data => ({ courseId: course.id, type: 'lab', data: data.data || [] }))
+        fetch(`${API_BASE}${course.apiPrefix}/lecture`, fetchOpts).then(res => res.json()).then(data => ({ courseId: course.id, type: 'lecture', data: data.data || [] })),
+        fetch(`${API_BASE}${course.apiPrefix}/lab`, fetchOpts).then(res => res.json()).then(data => ({ courseId: course.id, type: 'lab', data: data.data || [] }))
       ]);
 
       const results = await Promise.allSettled(allPromises);
