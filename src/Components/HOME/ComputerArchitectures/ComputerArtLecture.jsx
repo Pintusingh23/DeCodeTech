@@ -17,13 +17,13 @@ export default function ComputerArtLecture() {
   const fetchLectures = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5001/api/computerarchitecture/lecture");
+      const response = await fetch("https://de-code-tech-backend.vercel.app/api/computerarchitecture/lecture");
       const result = await response.json();
 
       if (result.success) {
         const fetchedData = result.data || [];
         setCaLectures(fetchedData);
-        
+
         if (fetchedData.length > 0 && !searchParams.get("lesson")) {
           setSearchParams({ lesson: fetchedData[0]._id || fetchedData[0].id }, { replace: true });
         }
@@ -68,34 +68,34 @@ export default function ComputerArtLecture() {
   return (
     <div className="min-h-screen bg-[#211D31] pt-32 pb-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 flex flex-col gap-5"
         >
           <div className="w-full">
             <div className="mb-4">
-              <Link 
-              to="/computer" 
-              className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
-            >
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Back to Courses
-            </Link>
-                        </div>
+              <Link
+                to="/computer"
+                className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
+              >
+                <ChevronLeft className="w-4 h-4 mr-1" />
+                Back to Courses
+              </Link>
+            </div>
             <div className="flex items-center justify-between w-full">
               <h1 className="text-3xl font-extrabold text-[#F8F7FF] tracking-tight">
-              Computer Architecture Masterclass
-            </h1>
+                Computer Architecture Masterclass
+              </h1>
+            </div>
+            <div className="hidden sm:block">
+              <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
+                {caLectures.length > 0 ? `${selected + 1} / ${caLectures.length} Lessons` : "0 Lessons"}
+              </span>
+            </div>
           </div>
-          <div className="hidden sm:block">
-             <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
-               {caLectures.length > 0 ? `${selected + 1} / ${caLectures.length} Lessons` : "0 Lessons"}
-             </span>
-          </div>
-                  </div>
         </motion.div>
 
         {loading ? (
@@ -112,9 +112,9 @@ export default function ComputerArtLecture() {
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-8">
-            
+
             {/* Main Content - Video Player */}
-            <motion.main 
+            <motion.main
               className="flex-1 order-1"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -172,7 +172,7 @@ export default function ComputerArtLecture() {
             </motion.main>
 
             {/* Sidebar - Playlist */}
-            <motion.aside 
+            <motion.aside
               className="w-full lg:w-96 order-2 lg:order-2"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -182,7 +182,7 @@ export default function ComputerArtLecture() {
                 <div className="p-5 border-b border-[#C8C1F0]/10 bg-[rgba(255,255,255,0.04)]">
                   <h3 className="text-lg font-bold text-[#F8F7FF]">Course Content</h3>
                 </div>
-                
+
                 <ul className="max-h-[600px] overflow-y-auto custom-scrollbar">
                   {caLectures.map((lec, idx) => {
                     const isActive = idx === selected;
@@ -190,11 +190,10 @@ export default function ComputerArtLecture() {
                       <li key={lec._id}>
                         <button
                           onClick={() => setSearchParams({ lesson: lec._id || lec.id })}
-                          className={`w-full text-left p-4 flex gap-4 items-start transition-all duration-200 border-l-4 ${
-                            isActive 
-                              ? "bg-[rgba(117,96,199,0.15)] border-indigo-600" 
+                          className={`w-full text-left p-4 flex gap-4 items-start transition-all duration-200 border-l-4 ${isActive
+                              ? "bg-[rgba(117,96,199,0.15)] border-indigo-600"
                               : "bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border-transparent hover:bg-[#211D31]"
-                          }`}
+                            }`}
                         >
                           <div className="flex-shrink-0 mt-1">
                             {isActive ? (
@@ -204,9 +203,8 @@ export default function ComputerArtLecture() {
                             )}
                           </div>
                           <div>
-                            <h4 className={`text-sm font-semibold mb-1 ${
-                              isActive ? "text-[#F8F7FF]" : "text-[#F8F7FF]"
-                            }`}>
+                            <h4 className={`text-sm font-semibold mb-1 ${isActive ? "text-[#F8F7FF]" : "text-[#F8F7FF]"
+                              }`}>
                               {idx + 1}. {lec.Title}
                             </h4>
                             <span className="text-xs text-[#B8B2CC] flex items-center font-medium">
@@ -225,9 +223,10 @@ export default function ComputerArtLecture() {
           </div>
         )}
       </div>
-      
+
       {/* Add a tiny bit of CSS for the custom scrollbar */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
         }

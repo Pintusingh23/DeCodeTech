@@ -17,13 +17,13 @@ export default function MysqlLecture() {
   const fetchLectures = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5001/api/mysql/");
+      const response = await fetch("https://de-code-tech-backend.vercel.app/api/mysql/");
       const result = await response.json();
 
       if (result.success) {
         const fetchedData = result.data || [];
         setMysqlLectures(fetchedData);
-        
+
         if (fetchedData.length > 0 && !searchParams.get("lesson")) {
           setSearchParams({ lesson: fetchedData[0]._id || fetchedData[0].id }, { replace: true });
         }
@@ -78,24 +78,24 @@ export default function MysqlLecture() {
           <div className="w-full">
             <div className="mb-4">
               <Link
-              to="/mysql"
-              className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
-            >
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Back to Courses
-            </Link>
-                        </div>
+                to="/mysql"
+                className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
+              >
+                <ChevronLeft className="w-4 h-4 mr-1" />
+                Back to Courses
+              </Link>
+            </div>
             <div className="flex items-center justify-between w-full">
               <h1 className="text-3xl font-extrabold text-[#F8F7FF] tracking-tight">
-              MySQL Masterclass
-            </h1>
+                MySQL Masterclass
+              </h1>
+            </div>
+            <div className="hidden sm:block">
+              <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
+                {mysqlLectures.length > 0 ? `${selected + 1} / ${mysqlLectures.length} Lessons` : "0 Lessons"}
+              </span>
+            </div>
           </div>
-          <div className="hidden sm:block">
-            <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
-              {mysqlLectures.length > 0 ? `${selected + 1} / ${mysqlLectures.length} Lessons` : "0 Lessons"}
-            </span>
-          </div>
-                  </div>
         </motion.div>
 
         {loading ? (

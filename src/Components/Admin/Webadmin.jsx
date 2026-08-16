@@ -8,9 +8,9 @@ const Webadmin = () => {
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  
 
-  const API_BASE_URL = "http://localhost:5001/api/videos";
+
+  const API_BASE_URL = "https://de-code-tech-backend.vercel.app/api/videos";
 
   // Fetch videos from API
   const fetchVideos = async () => {
@@ -23,7 +23,7 @@ const Webadmin = () => {
           "Authorization": `Bearer ${token}`
         }
       });
-      
+
       if (!response.ok) {
         if (response.status === 404) {
           setBanners([]);
@@ -31,7 +31,7 @@ const Webadmin = () => {
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       setBanners(data);
     } catch (error) {
@@ -146,7 +146,7 @@ const Webadmin = () => {
   // Handle form submit (add or edit)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       setLoading(true);
       setError("");
@@ -161,7 +161,7 @@ const Webadmin = () => {
 
       // Refresh the list
       await fetchVideos();
-      
+
       // Reset form
       setFormData({ title: "", description: "", videoUrl: "" });
       setShowModal(false);

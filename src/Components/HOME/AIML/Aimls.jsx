@@ -59,8 +59,8 @@ export default function Aimls() {
     const fetchAimlStats = async () => {
       try {
         const [lectureRes, labRes] = await Promise.allSettled([
-          fetch('http://localhost:5001/api/aiml/lecture').then(res => res.json()),
-          fetch('http://localhost:5001/api/aiml/lab').then(res => res.json())
+          fetch('https://de-code-tech-backend.vercel.app/api/aiml/lecture').then(res => res.json()),
+          fetch('https://de-code-tech-backend.vercel.app/api/aiml/lab').then(res => res.json())
         ]);
 
         const lectureData = lectureRes.status === 'fulfilled' && lectureRes.value.data ? lectureRes.value.data : [];
@@ -138,7 +138,7 @@ export default function Aimls() {
                 <div className="pl-8"><span className="text-blue-400">self</span><span className="text-slate-300">.</span><span className="text-yellow-300">fc</span> <span className="text-slate-300">= </span><span className="text-blue-400">nn.Linear</span><span className="text-slate-300">(784, 10)</span></div>
                 <div className="mt-2"><span className="text-purple-400">def</span> <span className="text-yellow-300">forward</span><span className="text-slate-300">(self, x):</span></div>
                 <div className="pl-4"><span className="text-blue-400">return</span> <span className="text-blue-400">self</span><span class="text-slate-300">.</span><span class="text-yellow-300">fc</span><span class="text-slate-300">(x)</span></div>
-                <motion.div animate={{ opacity: [1,0,1] }} transition={{ repeat: Infinity, duration: 1 }} className="w-2 h-4 bg-purple-400 mt-2 rounded-sm" />
+                <motion.div animate={{ opacity: [1, 0, 1] }} transition={{ repeat: Infinity, duration: 1 }} className="w-2 h-4 bg-purple-400 mt-2 rounded-sm" />
               </div>
             </motion.div>
             <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.8, type: "spring" }} className="absolute -bottom-4 -right-4 bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border border-[#C8C1F0]/20 rounded-xl px-4 py-2.5 shadow-lg flex items-center gap-2">

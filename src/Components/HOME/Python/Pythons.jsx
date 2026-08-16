@@ -57,8 +57,8 @@ const Pythons = () => {
     const fetchPythonStats = async () => {
       try {
         const [lectureRes, labRes] = await Promise.allSettled([
-          fetch('http://localhost:5001/api/python/lecture').then(res => res.json()),
-          fetch('http://localhost:5001/api/python/lab').then(res => res.json())
+          fetch('https://de-code-tech-backend.vercel.app/api/python/lecture').then(res => res.json()),
+          fetch('https://de-code-tech-backend.vercel.app/api/python/lab').then(res => res.json())
         ]);
 
         const lectureData = lectureRes.status === 'fulfilled' && lectureRes.value.data ? lectureRes.value.data : [];

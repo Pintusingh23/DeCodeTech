@@ -12,7 +12,7 @@ export const AdminProvider = ({ children }) => {
 
   // Axios instance specifically for admin routes
   const api = axios.create({
-    baseURL: 'http://localhost:5001/api',
+    baseURL: 'https://de-code-tech-backend.vercel.app/api',
   });
 
   // Intercept requests to add JWT token
@@ -55,7 +55,7 @@ export const AdminProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const res = await api.post('/admin/login', { email, password });
-      
+
       if (res.data.success) {
         localStorage.setItem('adminToken', res.data.token);
         setIsAdminAuthenticated(true);
@@ -63,9 +63,9 @@ export const AdminProvider = ({ children }) => {
         return { success: true };
       }
     } catch (error) {
-      return { 
-        success: false, 
-        message: error.response?.data?.message || "Invalid email or password" 
+      return {
+        success: false,
+        message: error.response?.data?.message || "Invalid email or password"
       };
     }
   };

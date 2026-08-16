@@ -7,7 +7,7 @@ const AdminCallbackRequests = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const API_URL = "http://localhost:5001/api/contact/";
+  const API_URL = "https://de-code-tech-backend.vercel.app/api/contact/";
 
   useEffect(() => {
     fetchRequests();
@@ -38,7 +38,7 @@ const AdminCallbackRequests = () => {
         const token = localStorage.getItem('adminToken');
         const response = await fetch(`${API_URL}${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
         const data = await response.json();
-        
+
         if (data.success) {
           alert("Request deleted successfully");
           fetchRequests();
@@ -101,9 +101,9 @@ const AdminCallbackRequests = () => {
         <div className="relative max-w-md">
           <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
-            type="text" 
+            type="text"
             placeholder="Search by name, email, subject, or message..."
-            value={searchTerm} 
+            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all text-sm text-gray-800"
           />
@@ -170,17 +170,17 @@ const AdminCallbackRequests = () => {
                     <td className="px-6 py-4 text-gray-500">
                       <span className="flex items-center gap-1">
                         <Calendar size={14} className="text-emerald-400" />
-                        {new Date(req.createdAt).toLocaleString(undefined, { 
-                          year: 'numeric', month: 'short', day: 'numeric', 
-                          hour: '2-digit', minute: '2-digit' 
+                        {new Date(req.createdAt).toLocaleString(undefined, {
+                          year: 'numeric', month: 'short', day: 'numeric',
+                          hour: '2-digit', minute: '2-digit'
                         })}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button 
-                          onClick={() => handleDelete(req._id)} 
-                          className="p-2 rounded-lg text-red-500 hover:bg-red-100 transition-colors" 
+                        <button
+                          onClick={() => handleDelete(req._id)}
+                          className="p-2 rounded-lg text-red-500 hover:bg-red-100 transition-colors"
                           title="Delete"
                         >
                           <Trash2 size={16} />

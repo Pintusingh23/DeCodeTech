@@ -21,7 +21,7 @@ export default function WebLecture() {
   const { topicId } = useParams();
   const title = topicTitles[topicId] || "Web Development";
   const endpointKey = apiEndpoints[topicId] || "htmlcss";
-  
+
   const [lectures, setLectures] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const lessonId = searchParams.get("lesson");
@@ -33,14 +33,14 @@ export default function WebLecture() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://localhost:5001/api/${endpointKey}/lecture`);
+        const response = await fetch(`https://de-code-tech-backend.vercel.app/api/${endpointKey}/lecture`);
         const data = await response.json();
-        
+
         // Handle format variations {success: true, data: []} or just []
         const fetchedData = Array.isArray(data) ? data : (data.data || []);
-        
+
         setLectures(fetchedData);
-        
+
         if (fetchedData.length > 0 && !searchParams.get("lesson")) {
           setSearchParams({ lesson: fetchedData[0]._id || fetchedData[0].id }, { replace: true });
         }
@@ -92,24 +92,24 @@ export default function WebLecture() {
           <div className="w-full">
             <div className="mb-4">
               <Link
-              to={`/web-development/${topicId}`}
-              className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
-            >
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Back to {title} Modules
-            </Link>
-                        </div>
+                to={`/web-development/${topicId}`}
+                className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
+              >
+                <ChevronLeft className="w-4 h-4 mr-1" />
+                Back to {title} Modules
+              </Link>
+            </div>
             <div className="flex items-center justify-between w-full">
               <h1 className="text-3xl font-extrabold text-[#F8F7FF] tracking-tight">
-              {title} Masterclass
-            </h1>
+                {title} Masterclass
+              </h1>
+            </div>
+            <div className="hidden sm:block">
+              <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
+                {loading ? "..." : lectures.length} Lessons
+              </span>
+            </div>
           </div>
-          <div className="hidden sm:block">
-            <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
-              {loading ? "..." : lectures.length} Lessons
-            </span>
-          </div>
-                  </div>
         </motion.div>
 
         {loading ? (
@@ -204,11 +204,10 @@ export default function WebLecture() {
                       <li key={lec._id || idx}>
                         <button
                           onClick={() => setSearchParams({ lesson: lec._id || lec.id })}
-                          className={`w-full text-left p-4 flex gap-4 items-start transition-all duration-200 border-l-4 ${
-                            isActive
+                          className={`w-full text-left p-4 flex gap-4 items-start transition-all duration-200 border-l-4 ${isActive
                               ? "bg-[rgba(117,96,199,0.15)] border-blue-600"
                               : "bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border-transparent hover:bg-[#211D31]"
-                          }`}
+                            }`}
                         >
                           <div className="flex-shrink-0 mt-1">
                             {isActive ? (
@@ -218,9 +217,8 @@ export default function WebLecture() {
                             )}
                           </div>
                           <div>
-                            <h4 className={`text-sm font-semibold mb-1 ${
-                              isActive ? "text-[#F8F7FF]" : "text-[#F8F7FF]"
-                            }`}>
+                            <h4 className={`text-sm font-semibold mb-1 ${isActive ? "text-[#F8F7FF]" : "text-[#F8F7FF]"
+                              }`}>
                               {idx + 1}. {lec.Title}
                             </h4>
                             <span className="text-xs text-[#B8B2CC] flex items-center font-medium">

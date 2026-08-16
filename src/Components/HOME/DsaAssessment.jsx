@@ -17,13 +17,13 @@ export default function DsaAssessment() {
   const fetchAssessments = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5001/api/dsa/lab");
+      const response = await fetch("https://de-code-tech-backend.vercel.app/api/dsa/lab");
       const result = await response.json();
 
       if (result.success) {
         const fetchedData = result.data || [];
         setAssessmentVideos(fetchedData);
-        
+
         if (fetchedData.length > 0 && !searchParams.get("lesson")) {
           setSearchParams({ lesson: fetchedData[0]._id || fetchedData[0].id }, { replace: true });
         }
@@ -68,34 +68,34 @@ export default function DsaAssessment() {
   return (
     <div className="min-h-screen bg-[#211D31] pt-32 pb-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 flex flex-col gap-5"
         >
           <div className="w-full">
             <div className="mb-4">
-              <Link 
-              to="/dsa" 
-              className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
-            >
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Back to DSA Home
-            </Link>
-                        </div>
+              <Link
+                to="/dsa"
+                className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
+              >
+                <ChevronLeft className="w-4 h-4 mr-1" />
+                Back to DSA Home
+              </Link>
+            </div>
             <div className="flex items-center justify-between w-full">
               <h1 className="text-3xl font-extrabold text-[#F8F7FF] tracking-tight">
-              DSA Assessment Lab
-            </h1>
+                DSA Assessment Lab
+              </h1>
+            </div>
+            <div className="hidden sm:block">
+              <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
+                {assessmentVideos.length > 0 ? `${selected + 1} / ${assessmentVideos.length} Tasks` : "0 Tasks"}
+              </span>
+            </div>
           </div>
-          <div className="hidden sm:block">
-             <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
-               {assessmentVideos.length > 0 ? `${selected + 1} / ${assessmentVideos.length} Tasks` : "0 Tasks"}
-             </span>
-          </div>
-                  </div>
         </motion.div>
 
         {loading ? (
@@ -112,9 +112,9 @@ export default function DsaAssessment() {
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-8">
-            
+
             {/* Main Content - Video Player */}
-            <motion.main 
+            <motion.main
               className="flex-1 order-1"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -177,7 +177,7 @@ export default function DsaAssessment() {
             </motion.main>
 
             {/* Sidebar - Playlist */}
-            <motion.aside 
+            <motion.aside
               className="w-full lg:w-96 order-2 lg:order-2"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -187,7 +187,7 @@ export default function DsaAssessment() {
                 <div className="p-5 border-b border-[#C8C1F0]/10 bg-[rgba(255,255,255,0.04)]">
                   <h3 className="text-lg font-bold text-[#F8F7FF]">Assessment Tasks</h3>
                 </div>
-                
+
                 <ul className="max-h-[600px] overflow-y-auto custom-scrollbar">
                   {assessmentVideos.map((item, idx) => {
                     const isActive = idx === selected;
@@ -195,11 +195,10 @@ export default function DsaAssessment() {
                       <li key={item._id}>
                         <button
                           onClick={() => setSearchParams({ lesson: item._id || item.id })}
-                          className={`w-full text-left p-4 flex gap-4 items-start transition-all duration-200 border-l-4 ${
-                            isActive 
-                              ? "bg-[rgba(117,96,199,0.15)] border-[#9B8DE3]" 
+                          className={`w-full text-left p-4 flex gap-4 items-start transition-all duration-200 border-l-4 ${isActive
+                              ? "bg-[rgba(117,96,199,0.15)] border-[#9B8DE3]"
                               : "bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border-transparent hover:bg-[#211D31]"
-                          }`}
+                            }`}
                         >
                           <div className="flex-shrink-0 mt-1">
                             {isActive ? (
@@ -209,9 +208,8 @@ export default function DsaAssessment() {
                             )}
                           </div>
                           <div>
-                            <h4 className={`text-sm font-semibold mb-1 ${
-                              isActive ? "text-[#F8F7FF]" : "text-[#F8F7FF]"
-                            }`}>
+                            <h4 className={`text-sm font-semibold mb-1 ${isActive ? "text-[#F8F7FF]" : "text-[#F8F7FF]"
+                              }`}>
                               {idx + 1}. {item.Title}
                             </h4>
                             <span className="text-xs text-[#B8B2CC] flex items-center font-medium">
@@ -230,9 +228,10 @@ export default function DsaAssessment() {
           </div>
         )}
       </div>
-      
+
       {/* Add a tiny bit of CSS for the custom scrollbar */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
         }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { 
-  BookOpen, Code, Database, Monitor, Server, Cpu, Layers, HardDrive, 
+import {
+  BookOpen, Code, Database, Monitor, Server, Cpu, Layers, HardDrive,
   Terminal, RefreshCw, MessageSquare, PlusCircle, AlertCircle
 } from "lucide-react";
 
-const API_BASE = "http://localhost:5001/api";
+const API_BASE = "https://de-code-tech-backend.vercel.app/api";
 
 const COURSE_CONFIG = [
   { id: "htmlcss", title: "HTML & CSS", icon: <Monitor size={24} className="text-orange-500" />, path: "/admin/Webadmin/HTMLCSS/Lecture", apiPrefix: "/htmlcss" },
@@ -22,11 +22,11 @@ const COURSE_CONFIG = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  
+
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
-  
+
   const [courseStats, setCourseStats] = useState({});
   const [contacts, setContacts] = useState([]);
   const [recentContent, setRecentContent] = useState([]);
@@ -53,7 +53,7 @@ const Dashboard = () => {
       ]);
 
       const results = await Promise.allSettled(allPromises);
-      
+
       const newStats = {};
       COURSE_CONFIG.forEach(c => newStats[c.id] = { lectures: 0, labs: 0 });
       let allContent = [];
@@ -61,7 +61,7 @@ const Dashboard = () => {
       results.forEach(result => {
         if (result.status === 'fulfilled' && result.value.data) {
           const { courseId, type, data } = result.value;
-          
+
           if (type === 'lecture') {
             newStats[courseId].lectures = data.length;
             // Map items for recent content
@@ -119,7 +119,7 @@ const Dashboard = () => {
           <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
           <p className="text-gray-500 mt-1">Manage all your courses and contact requests in one place.</p>
         </div>
-        <button 
+        <button
           onClick={handleRefresh}
           disabled={loading || refreshing}
           className="flex items-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50"
@@ -138,33 +138,33 @@ const Dashboard = () => {
 
       {/* Stats Summary */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-        <StatCard 
-          title="Total Courses" 
-          value={COURSE_CONFIG.length} 
-          icon={<BookOpen size={24} className="text-indigo-600" />} 
-          bgColor="bg-indigo-100" 
-          loading={loading} 
+        <StatCard
+          title="Total Courses"
+          value={COURSE_CONFIG.length}
+          icon={<BookOpen size={24} className="text-indigo-600" />}
+          bgColor="bg-indigo-100"
+          loading={loading}
         />
-        <StatCard 
-          title="Total Lectures" 
-          value={totalLectures} 
-          icon={<Server size={24} className="text-emerald-600" />} 
-          bgColor="bg-emerald-100" 
-          loading={loading} 
+        <StatCard
+          title="Total Lectures"
+          value={totalLectures}
+          icon={<Server size={24} className="text-emerald-600" />}
+          bgColor="bg-emerald-100"
+          loading={loading}
         />
-        <StatCard 
-          title="Total Labs" 
-          value={totalLabs} 
-          icon={<Code size={24} className="text-amber-600" />} 
-          bgColor="bg-amber-100" 
-          loading={loading} 
+        <StatCard
+          title="Total Labs"
+          value={totalLabs}
+          icon={<Code size={24} className="text-amber-600" />}
+          bgColor="bg-amber-100"
+          loading={loading}
         />
-        <StatCard 
-          title="Contact Requests" 
-          value={contacts.length} 
-          icon={<MessageSquare size={24} className="text-rose-600" />} 
-          bgColor="bg-rose-100" 
-          loading={loading} 
+        <StatCard
+          title="Contact Requests"
+          value={contacts.length}
+          icon={<MessageSquare size={24} className="text-rose-600" />}
+          bgColor="bg-rose-100"
+          loading={loading}
         />
       </div>
 
@@ -173,7 +173,7 @@ const Dashboard = () => {
         <h2 className="text-xl font-bold text-gray-800 mb-5">Course Overview</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {COURSE_CONFIG.map((course) => (
-            <CourseCard 
+            <CourseCard
               key={course.id}
               title={course.title}
               icon={course.icon}
@@ -188,7 +188,7 @@ const Dashboard = () => {
 
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
+
         {/* Recent Contacts */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-5">
@@ -199,7 +199,7 @@ const Dashboard = () => {
               View All
             </Link>
           </div>
-          
+
           <div className="flex-1">
             {loading ? (
               <div className="animate-pulse space-y-4">
@@ -234,7 +234,7 @@ const Dashboard = () => {
               <PlusCircle size={20} className="text-emerald-500" /> Recently Added Content
             </h2>
           </div>
-          
+
           <div className="flex-1">
             {loading ? (
               <div className="animate-pulse space-y-4">
@@ -292,7 +292,7 @@ const StatCard = ({ title, value, icon, bgColor, loading }) => (
 );
 
 const CourseCard = ({ title, icon, lectures, labs, onClick, loading }) => (
-  <div 
+  <div
     onClick={onClick}
     className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
   >
@@ -302,7 +302,7 @@ const CourseCard = ({ title, icon, lectures, labs, onClick, loading }) => (
       </div>
       <h3 className="font-bold text-gray-800">{title}</h3>
     </div>
-    
+
     {loading ? (
       <div className="flex justify-between mt-2 animate-pulse">
         <div className="h-10 w-[45%] bg-gray-100 rounded-lg"></div>

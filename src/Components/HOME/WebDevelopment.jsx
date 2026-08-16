@@ -82,18 +82,18 @@ export default function WebDevelopment() {
     const fetchWebStats = async () => {
       try {
         const endpoints = [
-          'http://localhost:5001/api/htmlcss/lecture',
-          'http://localhost:5001/api/htmlcss/lab',
-          'http://localhost:5001/api/javascript/lecture',
-          'http://localhost:5001/api/javascript/lab',
-          'http://localhost:5001/api/react/lecture',
-          'http://localhost:5001/api/react/lab',
-          'http://localhost:5001/api/node/lecture',
-          'http://localhost:5001/api/node/lab'
+          'https://de-code-tech-backend.vercel.app/api/htmlcss/lecture',
+          'https://de-code-tech-backend.vercel.app/api/htmlcss/lab',
+          'https://de-code-tech-backend.vercel.app/api/javascript/lecture',
+          'https://de-code-tech-backend.vercel.app/api/javascript/lab',
+          'https://de-code-tech-backend.vercel.app/api/react/lecture',
+          'https://de-code-tech-backend.vercel.app/api/react/lab',
+          'https://de-code-tech-backend.vercel.app/api/node/lecture',
+          'https://de-code-tech-backend.vercel.app/api/node/lab'
         ];
 
         const results = await Promise.allSettled(endpoints.map(ep => fetch(ep).then(res => res.json())));
-        
+
         const getData = (index) => results[index].status === 'fulfilled' && results[index].value.data ? results[index].value.data : [];
 
         const htmlcssLec = getData(0);

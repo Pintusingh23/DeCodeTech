@@ -5,13 +5,13 @@ const AdminReactLab = () => {
   const [labs, setLabs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState({ Title: "", URL: "", Duration: "", Description: "" });
 
-  const API_URL = "http://localhost:5001/api/react/lab/";
+  const API_URL = "https://de-code-tech-backend.vercel.app/api/react/lab/";
 
   useEffect(() => {
     fetchVideos();
@@ -53,15 +53,15 @@ const AdminReactLab = () => {
 
       const response = await fetch(url, {
         method,
-        headers: { 
-          "Content-Type": "application/json", 
-          "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('adminToken')}`
         },
         body: JSON.stringify(formData)
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         alert(data.message);
         resetForm();
@@ -74,15 +74,15 @@ const AdminReactLab = () => {
     }
   };
 
-  const handleEdit = (video) => { 
-    setFormData({ 
-      Title: video.Title || "", 
-      URL: video.URL || "", 
-      Duration: video.Duration || "", 
-      Description: video.Description || "" 
-    }); 
-    setEditId(video._id); 
-    setShowForm(true); 
+  const handleEdit = (video) => {
+    setFormData({
+      Title: video.Title || "",
+      URL: video.URL || "",
+      Duration: video.Duration || "",
+      Description: video.Description || ""
+    });
+    setEditId(video._id);
+    setShowForm(true);
   };
 
   const handleDelete = async (id) => {
@@ -91,7 +91,7 @@ const AdminReactLab = () => {
         const token = localStorage.getItem('adminToken');
         const response = await fetch(`${API_URL}${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
         const data = await response.json();
-        
+
         if (data.success) {
           alert(data.message);
           fetchVideos();
@@ -415,7 +415,8 @@ const AdminReactLab = () => {
       </div>
 
       {/* Slide-up animation for modal */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes slideUp {
           from {
             opacity: 0;

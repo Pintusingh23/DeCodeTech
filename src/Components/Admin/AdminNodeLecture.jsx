@@ -5,13 +5,13 @@ const AdminNodeLecture = () => {
   const [lectures, setLectures] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState({ Title: "", URL: "", Duration: "", Description: "" });
 
-  const API_URL = "http://localhost:5001/api/node/lecture/";
+  const API_URL = "https://de-code-tech-backend.vercel.app/api/node/lecture/";
 
   useEffect(() => {
     fetchVideos();
@@ -53,15 +53,15 @@ const AdminNodeLecture = () => {
 
       const response = await fetch(url, {
         method,
-        headers: { 
-          "Content-Type": "application/json", 
-          "Authorization": `Bearer ${localStorage.getItem('adminToken')}` 
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('adminToken')}`
         },
         body: JSON.stringify(formData)
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         alert(data.message);
         resetForm();
@@ -74,15 +74,15 @@ const AdminNodeLecture = () => {
     }
   };
 
-  const handleEdit = (video) => { 
-    setFormData({ 
-      Title: video.Title || "", 
-      URL: video.URL || "", 
-      Duration: video.Duration || "", 
-      Description: video.Description || "" 
-    }); 
-    setEditId(video._id); 
-    setShowForm(true); 
+  const handleEdit = (video) => {
+    setFormData({
+      Title: video.Title || "",
+      URL: video.URL || "",
+      Duration: video.Duration || "",
+      Description: video.Description || ""
+    });
+    setEditId(video._id);
+    setShowForm(true);
   };
 
   const handleDelete = async (id) => {
@@ -91,7 +91,7 @@ const AdminNodeLecture = () => {
         const token = localStorage.getItem('adminToken');
         const response = await fetch(`${API_URL}${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
         const data = await response.json();
-        
+
         if (data.success) {
           alert(data.message);
           fetchVideos();
@@ -350,7 +350,8 @@ const AdminNodeLecture = () => {
         </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes slideUp {
           from { opacity: 0; transform: translateY(30px) scale(0.95); }
           to   { opacity: 1; transform: translateY(0)   scale(1);    }
