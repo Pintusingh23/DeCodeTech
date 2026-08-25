@@ -90,7 +90,7 @@ const Sidebar = () => {
         
         {/* Upgrade Card */}
         <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-5 border border-orange-100 rounded-xl space-y-3 shadow-sm hover:shadow-md transition-shadow">
-          <h3 className="font-bold text-gray-800">Jamna Academy Bootcamps</h3>
+          <h3 className="font-bold text-gray-800">deCode Academy</h3>
           <p className="text-sm text-gray-600">Go deeper and learn job-ready skills.</p>
           <button className="bg-gradient-to-r from-orange-500 to-amber-500 text-white py-2.5 px-5 rounded-xl w-full font-medium shadow hover:shadow-md transition-all hover:opacity-90 active:scale-95">
             lern more

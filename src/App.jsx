@@ -99,11 +99,13 @@ const AppContent = () => {
   // Hide navbar on coding interface
   const isCodingInterface = /^\/python\/assignments\/[^/]+/.test(location.pathname);
   const isHomeRoute = location.pathname === "/" || location.pathname === "/Deshboard";
+  // Hide navbar on learning/player pages (lecture or assessment)
+  const isLearningRoute = location.pathname.toLowerCase().includes("/lecture") || location.pathname.toLowerCase().includes("/assessment");
 
   return (
     <>
       {isHomeRoute && <IntroLoader onComplete={() => setIsLoading(false)} />}
-      {!isAdminRoute && !isCodingInterface && (!isHomeRoute || !isLoading) && <Navber />}
+      {!isAdminRoute && !isCodingInterface && !isLearningRoute && (!isHomeRoute || !isLoading) && <Navber />}
       <Routes>
         <Route path="/" element={<Home isLoading={isLoading} />} />
         <Route path="/Deshboard" element={<Home isLoading={isLoading} />} />

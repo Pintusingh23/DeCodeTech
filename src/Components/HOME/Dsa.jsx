@@ -14,9 +14,9 @@ const cards = [
     description: 'Comprehensive video lectures covering all core Data Structures and Algorithms from basics to advanced.',
     icon: PlayCircle,
     path: '/dsa/lecture',
-    color: 'from-[#7560C7] to-[#9B8DE3]',
-    borderAccent: 'border-[#C8C1F0]/20',
-    bgAccent: 'bg-[#7560C7]/20 text-[#C8C1F0]',
+    color: 'from-blue-500 to-indigo-500',
+    borderAccent: 'border-blue-500/10 hover:border-blue-500/30',
+    bgAccent: 'bg-blue-50 text-blue-600',
   },
   {
     id: 'assessment',
@@ -25,9 +25,9 @@ const cards = [
     description: 'Hands-on coding environment to practice and implement what you learn in real-time problems.',
     icon: Laptop,
     path: '/dsa/assessment',
-    color: 'from-[#7560C7] to-[#9B8DE3]',
-    borderAccent: 'border-[#C8C1F0]/20',
-    bgAccent: 'bg-[rgba(117,96,199,0.15)] text-[#9B8DE3]',
+    color: 'from-blue-500 to-indigo-500',
+    borderAccent: 'border-blue-500/10 hover:border-blue-500/30',
+    bgAccent: 'bg-blue-50 text-blue-600',
   },
   {
     id: 'sheet',
@@ -36,9 +36,9 @@ const cards = [
     description: 'Curated list of the most important interview questions to help you crack product-based companies.',
     icon: FileText,
     path: '/dsa/sheet',
-    color: 'from-[#7560C7] to-[#9B8DE3]',
-    borderAccent: 'border-[#C8C1F0]/20',
-    bgAccent: 'bg-[rgba(117,96,199,0.15)] text-[#9B8DE3]',
+    color: 'from-blue-500 to-indigo-500',
+    borderAccent: 'border-blue-500/10 hover:border-blue-500/30',
+    bgAccent: 'bg-blue-50 text-blue-600',
   }
 ];
 
@@ -51,12 +51,22 @@ const topics = [
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.3 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 14 } },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 15 } },
+};
+
+const cardContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 90, damping: 14 } },
 };
 
 const Dsa = () => {
@@ -100,136 +110,124 @@ const Dsa = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#211D31] font-['Space_Grotesk'] relative overflow-hidden">
-
-      {/* Background blobs */}
-      <div className="absolute top-[-15%] left-[-10%] w-[500px] h-[500px] bg-red-300/15 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[500px] h-[500px] bg-blue-300/15 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none z-0" />
+    <div className="min-h-screen bg-[#FAFAFA] font-['Space_Grotesk'] relative overflow-hidden text-slate-900">
+      
+      {/* Background Decor */}
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(#E2E8F0 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+      <motion.div className="absolute top-20 right-[10%] text-slate-100 font-mono font-black pointer-events-none select-none text-[120px]" animate={{ y: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}>{"[ ]"}</motion.div>
+      <motion.div className="absolute bottom-40 left-[5%] text-slate-100 font-mono font-black pointer-events-none select-none text-[100px]" animate={{ y: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 1 }}>{"{ }"}</motion.div>
 
       {/* ===== HERO ===== */}
-      <section className="relative pt-28 pb-16 px-6 sm:px-12 z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
+      <section className="relative pt-32 pb-20 px-6 sm:px-12 z-10 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
           {/* Left */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="space-y-6"
-          >
-            <div className="space-y-2">
-              <span className="text-[#9B8DE3] text-xs font-bold uppercase tracking-[0.2em]">// DATA STRUCTURES & ALGORITHMS</span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#F8F7FF] tracking-tight leading-[1.1]">
-                Master{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-600">
-                  DSA
-                </span>{" "}
-                the Right Way
-              </h1>
-            </div>
-            <p className="text-[#B8B2CC] text-base md:text-lg max-w-lg leading-relaxed">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }} className="space-y-8">
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }}>
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 border border-indigo-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse" />
+                Data Structures & Algorithms
+              </span>
+            </motion.div>
+
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]">
+              Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600">DSA</span> the Right Way
+            </h1>
+            
+            <p className="text-slate-600 text-lg md:text-xl max-w-lg leading-relaxed font-medium">
               The ultimate roadmap to cracking top tech interviews. Learn through lectures, practice in the lab, and conquer the DSA sheet.
             </p>
+            
             <motion.div className="flex flex-wrap gap-3 pt-2" variants={containerVariants} initial="hidden" animate="visible">
               {topics.map((t, i) => (
-                <motion.div key={i} variants={itemVariants}
-                  className="flex items-center gap-2 bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border border-[#C8C1F0]/20 px-3 py-1.5 rounded-full text-xs font-semibold text-[#B8B2CC] shadow-sm hover:border-red-300 hover:text-[#9B8DE3] transition-all duration-300">
-                  <t.icon className="w-3.5 h-3.5" />{t.label}
+                <motion.div key={i} variants={itemVariants} className="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-full text-sm font-semibold text-slate-600 shadow-sm hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 cursor-default">
+                  <t.icon className="w-4 h-4 text-indigo-500" />{t.label}
                 </motion.div>
               ))}
             </motion.div>
           </motion.div>
 
           {/* Right: algorithm visualization */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
-            className="relative flex justify-center"
-          >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] bg-red-400/10 rounded-full blur-[80px] pointer-events-none" />
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="relative w-full max-w-md bg-[#29243A]/80 rounded-2xl border border-slate-700/60 shadow-2xl overflow-hidden"
-            >
-              <div className="flex items-center gap-2 px-4 py-3 bg-[#211D31]/80 border-b border-slate-700/40">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.2 }} className="relative flex justify-center lg:justify-end">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-tr from-blue-500/20 to-indigo-500/20 rounded-full blur-[80px] pointer-events-none" />
+            
+            <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="relative w-full max-w-[440px] bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-slate-200 overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 border-b border-slate-100">
                 <div className="w-3 h-3 rounded-full bg-red-400" />
-                <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                <div className="w-3 h-3 rounded-full bg-amber-400" />
                 <div className="w-3 h-3 rounded-full bg-green-400" />
-                <span className="text-[10px] text-[#B8B2CC] ml-2 font-mono uppercase tracking-wider">dsa_playground</span>
+                <div className="flex-1 mx-4 bg-white border border-slate-200 rounded-md px-3 py-1 text-[11px] text-slate-400 font-mono text-center tracking-wider">dsa_playground.js</div>
               </div>
-              <div className="p-5 font-mono text-sm leading-relaxed space-y-2">
-                <div><span className="text-purple-400">function</span><span className="text-yellow-300"> binarySearch</span><span className="text-slate-300">(arr, target) {"{"}</span></div>
-                <div className="pl-4"><span className="text-blue-400">let</span><span className="text-slate-300"> left = </span><span className="text-green-400">0</span><span className="text-slate-300">, right = arr.length</span><span className="text-[#B8B2CC]"> - 1</span><span className="text-slate-300">;</span></div>
-                <div className="pl-4"><span className="text-purple-400">while</span><span className="text-slate-300"> (left &lt;= right) {"{"}</span></div>
-                <div className="pl-8"><span className="text-blue-400">let</span><span className="text-slate-300"> mid = </span><span className="text-yellow-300">Math.floor</span><span className="text-slate-300">((left + right) / </span><span className="text-green-400">2</span><span className="text-slate-300">);</span></div>
-                <div className="pl-8"><span className="text-purple-400">if</span><span className="text-slate-300"> (arr[mid] === target) </span><span className="text-purple-400">return</span><span className="text-slate-300"> mid;</span></div>
-                <div className="pl-8"><span className="text-[#B8B2CC]">// O(log n) ⚡</span></div>
-                <div className="pl-4"><span className="text-slate-300">{"}"}</span></div>
-                <div><span className="text-slate-300">{"}"}</span></div>
-                <motion.div animate={{ opacity: [1, 0, 1] }} transition={{ repeat: Infinity, duration: 1 }} className="w-2 h-4 bg-red-400 mt-2 rounded-sm" />
+              <div className="p-6 font-mono text-sm leading-relaxed space-y-3 bg-white">
+                <div><span className="text-indigo-600 font-medium">function</span><span className="text-blue-600 font-medium"> binarySearch</span><span className="text-slate-800">(arr, target) {"{"}</span></div>
+                <div className="pl-6"><span className="text-indigo-600 font-medium">let</span><span className="text-slate-800"> left = </span><span className="text-emerald-600">0</span><span className="text-slate-800">, right = arr.length</span><span className="text-slate-500"> - 1</span><span className="text-slate-800">;</span></div>
+                <div className="pl-6"><span className="text-indigo-600 font-medium">while</span><span className="text-slate-800"> (left &lt;= right) {"{"}</span></div>
+                <div className="pl-12"><span className="text-indigo-600 font-medium">let</span><span className="text-slate-800"> mid = </span><span className="text-blue-600">Math.floor</span><span className="text-slate-800">((left + right) / </span><span className="text-emerald-600">2</span><span className="text-slate-800">);</span></div>
+                <div className="pl-12"><span className="text-indigo-600 font-medium">if</span><span className="text-slate-800"> (arr[mid] === target) </span><span className="text-indigo-600 font-medium">return</span><span className="text-slate-800"> mid;</span></div>
+                <div className="pl-12"><span className="text-slate-400">// O(log n) ⚡</span></div>
+                <div className="pl-6"><span className="text-slate-800">{"}"}</span></div>
+                <div><span className="text-slate-800">{"}"}</span></div>
+                <motion.div animate={{ opacity: [1, 0, 1] }} transition={{ repeat: Infinity, duration: 1 }} className="w-2 h-4 bg-indigo-400/50 mt-3 rounded-sm" />
               </div>
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.8, type: "spring" }}
-              className="absolute -bottom-4 -right-4 bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border border-[#C8C1F0]/20 rounded-xl px-4 py-2.5 shadow-lg flex items-center gap-2"
-            >
-              <Code className="w-4 h-4 text-[#9B8DE3]" />
-              <span className="text-xs font-bold text-[#F8F7FF]">O(log n)</span>
+
+            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.8 }} className="absolute -bottom-6 -left-6 bg-white border border-slate-100 rounded-xl px-5 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex items-center gap-3">
+              <div className="bg-indigo-50 p-2 rounded-lg"><Code className="w-5 h-5 text-indigo-600" /></div>
+              <span className="text-sm font-bold text-slate-800">O(log n)</span>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* ===== COURSE CARDS ===== */}
-      <section className="relative pb-24 px-6 sm:px-12 z-10">
-        <div className="max-w-6xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-10">
-            <h2 className="text-2xl md:text-3xl font-black text-[#F8F7FF] tracking-tight">
-              Choose Your <span className="text-[#9B8DE3]">Path</span>
-            </h2>
-            <p className="text-[#B8B2CC] text-sm mt-2">Start with lectures, practice in the lab, or dive straight into interview questions.</p>
-          </motion.div>
+      <section className="relative py-20 px-6 sm:px-12 z-10 max-w-7xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="mb-14 text-center max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">Choose Your Path</h2>
+          <p className="text-slate-600 text-lg">Start with lectures, practice in the lab, or dive straight into interview questions.</p>
+        </motion.div>
 
-          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-7"
-            variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            {cards.map((course) => (
-              <motion.div key={course.id} variants={itemVariants}>
-                <Link to={course.path}
-                  className={`group relative block bg-[rgba(255,255,255,0.06)] backdrop-blur-xl rounded-2xl p-7 border ${course.borderAccent} shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.1)] transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-full`}
-                >
-                  <div className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-br ${course.color} rounded-bl-[100px] opacity-[0.07] group-hover:opacity-[0.14] group-hover:scale-125 transition-all duration-700`} />
-                  <div className="relative z-10 flex flex-col h-full">
-                    <div className="flex justify-between items-start mb-5">
-                      <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${course.color} flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                        <course.icon className="w-5 h-5 text-white" />
-                      </div>
-                      <span className={`text-[10px] font-bold uppercase tracking-wider ${course.bgAccent} px-2 py-0.5 rounded-full`}>{course.level}</span>
+        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8" variants={cardContainerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+          {cards.map((course) => (
+            <motion.div key={course.id} variants={cardVariants} className="h-full">
+              <Link to={course.path} className="group block h-full outline-none">
+                <div className={`relative flex flex-col h-full bg-white rounded-2xl border ${course.borderAccent} p-6 lg:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1.5`}>
+                  
+                  <div className="flex justify-between items-start mb-6">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${course.color} flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300`}>
+                      <course.icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-lg font-bold text-[#F8F7FF] mb-2">{course.title}</h3>
-                    <p className="text-[#B8B2CC] text-sm leading-relaxed mb-5 flex-1">{course.description}</p>
-                    <div className="flex items-center gap-5 text-[#B8B2CC] text-[11px] font-semibold mb-5">
-                      <div className="flex items-center gap-1">
-                        <BookOpen className="w-3 h-3" />
-                        {loading && course.id !== 'sheet' ? '...' : stats[course.id]?.lessons || 0} Lessons
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {loading && course.id !== 'sheet' ? '...' : stats[course.id]?.duration || '0m'}
-                      </div>
+                    <span className={`text-[10px] font-bold uppercase tracking-wider ${course.bgAccent} px-3 py-1 rounded-full`}>{course.level}</span>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{course.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed mb-8 flex-1">{course.description}</p>
+                  
+                  <div className="flex items-center gap-6 mb-8 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <div className="flex items-center text-slate-600 text-xs font-semibold">
+                      <BookOpen className="w-4 h-4 mr-2 text-slate-400" />
+                      {loading && course.id !== 'sheet' ? <span className="w-6 h-3 bg-slate-200 rounded animate-pulse" /> : stats[course.id]?.lessons || 0} Lessons
                     </div>
-                    <div className="flex items-center text-[#F8F7FF] font-bold text-sm mt-auto group-hover:text-[#9B8DE3] transition-colors">
-                      Start Learning <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1.5 transition-transform duration-300" />
+                    <div className="flex items-center text-slate-600 text-xs font-semibold">
+                      <Clock className="w-4 h-4 mr-2 text-slate-400" />
+                      {loading && course.id !== 'sheet' ? <span className="w-8 h-3 bg-slate-200 rounded animate-pulse" /> : stats[course.id]?.duration || '0m'}
                     </div>
                   </div>
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+                  
+                  <div className="flex items-center justify-between text-slate-800 font-bold text-sm mt-auto">
+                    <span>Start Learning</span>
+                    <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-slate-900 group-hover:border-slate-900 group-hover:text-white transition-all duration-300">
+                      <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                    </div>
+                  </div>
+                  
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
       </section>
+
+      <style dangerouslySetInnerHTML={{ __html: `@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }` }} />
     </div>
   );
 };

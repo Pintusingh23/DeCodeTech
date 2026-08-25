@@ -17,10 +17,18 @@ const apiEndpoints = {
   "nodejs": "node"
 };
 
+const topicAccents = {
+  "html-css": { color: "from-[#7560C7] to-[#9B8DE3]", bgActive: "bg-[#F3F1FB]", borderActive: "border-[#7560C7]", textActive: "text-[#7560C7]" },
+  "javascript": { color: "from-yellow-400 to-amber-500", bgActive: "bg-amber-50", borderActive: "border-amber-500", textActive: "text-amber-600" },
+  "reactjs": { color: "from-cyan-400 to-blue-500", bgActive: "bg-cyan-50", borderActive: "border-cyan-500", textActive: "text-cyan-600" },
+  "nodejs": { color: "from-emerald-400 to-green-500", bgActive: "bg-emerald-50", borderActive: "border-emerald-500", textActive: "text-emerald-600" },
+};
+
 export default function WebAssessment() {
   const { topicId } = useParams();
   const title = topicTitles[topicId] || "Web Development";
   const endpointKey = apiEndpoints[topicId] || "htmlcss";
+  const accent = topicAccents[topicId] || topicAccents["html-css"];
 
   const [tasks, setTasks] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,9 +44,7 @@ export default function WebAssessment() {
         const response = await fetch(`https://de-code-tech-backend.vercel.app/api/${endpointKey}/lab`);
         const data = await response.json();
 
-        // Handle format variations {success: true, data: []} or just []
         const fetchedData = Array.isArray(data) ? data : (data.data || []);
-
         setTasks(fetchedData);
 
         if (fetchedData.length > 0 && !searchParams.get("lesson")) {
@@ -82,70 +88,60 @@ export default function WebAssessment() {
   const current = tasks[selected];
 
   return (
-    <div className="min-h-screen bg-[#211D31] pt-32 pb-12 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex flex-col gap-5"
-        >
+    <div className="min-h-screen bg-[#FAFAFA] pt-6 lg:pt-10 pb-12 px-4 sm:px-6 lg:px-8 font-['Space_Grotesk'] text-slate-900">
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(#E2E8F0 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 flex flex-col gap-5">
           <div className="w-full">
-            <div className="mb-4">
-              <Link
-                to={`/web-development/${topicId}`}
-                className="inline-flex items-center text-sm font-medium text-[#B8B2CC] hover:text-[#9B8DE3] transition-colors "
-              >
-                <ChevronLeft className="w-4 h-4 mr-1" />
+            <div className="mb-6">
+              <Link to={`/web-development/${topicId}`} className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors group bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm hover:shadow-md">
+                <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
                 Back to {title} Modules
               </Link>
             </div>
             <div className="flex items-center justify-between w-full">
-              <h1 className="text-3xl font-extrabold text-[#F8F7FF] tracking-tight">
-                {title} Assessment Lab
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+                {title} <span className={`text-transparent bg-clip-text bg-gradient-to-r ${accent.color}`}>Assessment Lab</span>
               </h1>
             </div>
-            <div className="hidden sm:block">
-              <span className="bg-[rgba(255,255,255,0.06)] text-[#C8C1F0] text-xs font-semibold px-3 py-1 rounded-full border border-[#C8C1F0]/20">
-                {loading ? "..." : tasks.length} Tasks
+            <div className="hidden sm:block mt-4">
+              <span className="inline-flex items-center gap-2 bg-white text-slate-600 text-xs font-bold px-4 py-1.5 rounded-full border border-slate-200 shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-slate-300" />
+                {loading ? "..." : tasks.length} Tasks Available
               </span>
             </div>
           </div>
         </motion.div>
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-[rgba(255,255,255,0.06)] backdrop-blur-xl rounded-2xl shadow-sm border border-[#C8C1F0]/20">
-            <div className="w-12 h-12 border-4 border-[#C8C1F0]/20 border-t-amber-500 rounded-full animate-spin"></div>
-            <p className="mt-4 text-[#B8B2CC] font-medium">Loading lab videos...</p>
+          <div className="flex flex-col items-center justify-center py-24 bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <div className="w-12 h-12 border-4 border-slate-100 border-t-amber-400 rounded-full animate-spin" />
+            <p className="mt-6 text-slate-500 font-medium text-lg">Loading lab tasks...</p>
           </div>
         ) : error ? (
-          <div className="bg-[rgba(117,96,199,0.15)] p-6 rounded-2xl border border-red-100 text-center">
-            <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-[#C8C1F0] mb-1">Oops! Something went wrong</h3>
-            <p className="text-[#9B8DE3]">{error}</p>
+          <div className="p-10 bg-red-50 rounded-2xl border border-red-100 text-center shadow-sm">
+            <AlertCircle className="w-14 h-14 text-red-400 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-red-900 mb-2">Oops! Something went wrong</h3>
+            <p className="text-red-700">{error}</p>
           </div>
         ) : tasks.length === 0 ? (
-          <div className="bg-[rgba(255,255,255,0.06)] backdrop-blur-xl p-12 rounded-2xl shadow-sm border border-[#C8C1F0]/20 text-center">
-            <PlayCircle className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-[#F8F7FF] mb-2">No lab videos available yet.</h3>
-            <p className="text-[#B8B2CC]">Check back later for new content!</p>
+          <div className="p-16 bg-white rounded-2xl border border-slate-200 text-center shadow-sm">
+            <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <PlayCircle className="w-10 h-10 text-slate-300" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 mb-3">No tasks available yet.</h3>
+            <p className="text-slate-500 text-lg">Check back later for new content!</p>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-8">
-            <motion.main
-              className="flex-1 order-1"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="bg-[rgba(255,255,255,0.06)] backdrop-blur-xl rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.3)] overflow-hidden border border-[#C8C1F0]/20">
-                <div className="aspect-video bg-[#110f1a] relative">
+            <motion.main className="flex-1 order-1" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+                <div className="aspect-video bg-slate-900 relative">
                   <AnimatePresence mode="wait">
                     <motion.iframe
                       key={current._id || selected}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
+                      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
                       className="absolute inset-0 w-full h-full border-0"
                       src={getEmbedUrl(current.URL)}
                       title={current.Title}
@@ -154,35 +150,19 @@ export default function WebAssessment() {
                     />
                   </AnimatePresence>
                 </div>
-
-                <div className="p-6 sm:p-8">
+                <div className="p-8 sm:p-10">
                   <AnimatePresence mode="wait">
-                    <motion.div
-                      key={`info-${current._id || selected}`}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="flex items-center space-x-4 mb-4 text-sm text-[#B8B2CC] font-medium">
-                        <span className="flex items-center">
-                          <PlayCircle className="w-4 h-4 mr-1.5 text-[#9B8DE3]" />
-                          Assessment {selected + 1}
-                        </span>
-                        <span className="flex items-center">
-                          <Clock className="w-4 h-4 mr-1.5 text-[#9B8DE3]" />
-                          {current.Duration}
-                        </span>
+                    <motion.div key={`info-${current._id || selected}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}>
+                      <div className="flex items-center space-x-6 mb-5 text-sm text-slate-600 font-semibold bg-slate-50 inline-flex px-4 py-2 rounded-lg border border-slate-100">
+                        <span className="flex items-center"><PlayCircle className="w-4 h-4 mr-2 text-slate-400" /> Task {selected + 1}</span>
+                        <div className="w-1 h-1 rounded-full bg-slate-300" />
+                        <span className="flex items-center"><Clock className="w-4 h-4 mr-2 text-slate-400" /> {current.Duration}</span>
                       </div>
-                      <h2 className="text-2xl font-bold text-[#F8F7FF] mb-3">
-                        {current.Title}
-                      </h2>
-                      <p className="text-[#B8B2CC] leading-relaxed mb-4 whitespace-pre-wrap">
-                        {current.Description}
-                      </p>
-                      <div className="bg-[rgba(117,96,199,0.15)] border-l-4 border-[#9B8DE3] p-4 rounded-r-lg">
-                        <p className="text-sm text-[#C8C1F0] font-medium">
-                          Task: Implement the optimal solution and submit your code in the lab environment below the video.
+                      <h2 className="text-3xl font-extrabold text-slate-900 mb-4">{current.Title}</h2>
+                      <p className="text-slate-600 leading-relaxed whitespace-pre-wrap text-base mb-6">{current.Description}</p>
+                      <div className={`p-4 rounded-xl border ${accent.bgActive} border-transparent`}>
+                        <p className={`text-sm font-semibold ${accent.textActive}`}>
+                          Assignment: Implement the optimal solution and submit your code in the lab environment below the video.
                         </p>
                       </div>
                     </motion.div>
@@ -191,44 +171,32 @@ export default function WebAssessment() {
               </div>
             </motion.main>
 
-            <motion.aside
-              className="w-full lg:w-96 order-2 lg:order-2"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <div className="bg-[rgba(255,255,255,0.06)] backdrop-blur-xl rounded-2xl shadow-lg border border-[#C8C1F0]/20 overflow-hidden sticky top-24">
-                <div className="p-5 border-b border-[#C8C1F0]/10 bg-[rgba(255,255,255,0.04)]">
-                  <h3 className="text-lg font-bold text-[#F8F7FF]">Assessment Tasks</h3>
+            <motion.aside className="w-full lg:w-[400px] order-2 lg:order-2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden sticky top-24">
+                <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+                  <h3 className="text-lg font-bold text-slate-900">Assessment Tasks</h3>
+                  <p className="text-sm text-slate-500 mt-1 font-medium">{tasks.length} tasks available</p>
                 </div>
-
-                <ul className="max-h-[600px] overflow-y-auto custom-scrollbar">
+                <ul className="max-h-[650px] overflow-y-auto web-lecture-scrollbar p-3 space-y-2">
                   {tasks.map((item, idx) => {
                     const isActive = idx === selected;
                     return (
                       <li key={item._id || idx}>
                         <button
                           onClick={() => setSearchParams({ lesson: item._id || item.id })}
-                          className={`w-full text-left p-4 flex gap-4 items-start transition-all duration-200 border-l-4 ${isActive
-                              ? "bg-[rgba(117,96,199,0.15)] border-[#9B8DE3]"
-                              : "bg-[rgba(255,255,255,0.06)] backdrop-blur-xl border-transparent hover:bg-[#211D31]"
-                            }`}
+                          className={`w-full text-left p-4 flex gap-4 items-start rounded-xl transition-all duration-200 border ${
+                            isActive ? `${accent.bgActive} border-transparent shadow-sm` : "bg-white border-transparent hover:bg-slate-50 hover:border-slate-100"
+                          }`}
                         >
-                          <div className="flex-shrink-0 mt-1">
-                            {isActive ? (
-                              <PlayCircle className="w-5 h-5 text-[#9B8DE3] fill-[#9B8DE3]/20" />
-                            ) : (
-                              <CheckCircle2 className="w-5 h-5 text-slate-300" />
-                            )}
+                          <div className="flex-shrink-0 mt-0.5">
+                            {isActive ? <PlayCircle className={`w-5 h-5 ${accent.textActive}`} /> : <CheckCircle2 className="w-5 h-5 text-slate-300" />}
                           </div>
-                          <div>
-                            <h4 className={`text-sm font-semibold mb-1 ${isActive ? "text-[#F8F7FF]" : "text-[#F8F7FF]"
-                              }`}>
+                          <div className="flex-1 min-w-0">
+                            <h4 className={`text-sm font-bold mb-1.5 leading-snug ${isActive ? "text-slate-900" : "text-slate-700"}`}>
                               {idx + 1}. {item.Title}
                             </h4>
-                            <span className="text-xs text-[#B8B2CC] flex items-center font-medium">
-                              <Clock className="w-3 h-3 mr-1" />
-                              {item.Duration}
+                            <span className={`text-xs flex items-center font-semibold ${isActive ? accent.textActive : "text-slate-400"}`}>
+                              <Clock className="w-3 h-3 mr-1.5" /> {item.Duration}
                             </span>
                           </div>
                         </button>
@@ -244,12 +212,11 @@ export default function WebAssessment() {
 
       <style dangerouslySetInnerHTML={{
         __html: `
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(200, 193, 240, 0.2);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background-color: rgba(200, 193, 240, 0.4); border-radius: 20px; }
+        .web-lecture-scrollbar::-webkit-scrollbar { width: 6px; }
+        .web-lecture-scrollbar::-webkit-scrollbar-track { background: transparent; margin: 8px 0; }
+        .web-lecture-scrollbar::-webkit-scrollbar-thumb { background-color: #E2E8F0; border-radius: 20px; }
+        .web-lecture-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #CBD5E1; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
       `}} />
     </div>
   );
