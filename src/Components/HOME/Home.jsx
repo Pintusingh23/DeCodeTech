@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaArrowRight } from 'react-icons/fa';
-import { LayoutDashboard, FolderKanban, BookOpen, Target, User } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, BookOpen, Target, User, Rocket, Code, Monitor, BrainCircuit, Server, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CareerGuidance from './CareerGuidance';
 
@@ -29,10 +29,10 @@ const Home = ({ isLoading = false }) => {
       {/* ==================================================
           LEFT SIDEBAR (DASHBOARD)
           ================================================== */}
-      <aside className="hidden lg:flex flex-col fixed top-0 left-0 h-screen w-64 pt-24 pb-6 px-6 bg-white border-r border-slate-200 shadow-[2px_0_10px_rgba(0,0,0,0.02)] z-40">
+      <aside className="hidden lg:flex flex-col fixed top-0 left-0 h-screen w-64 pt-24 pb-6 px-5 bg-white border-r border-slate-200 shadow-[2px_0_10px_rgba(0,0,0,0.02)] z-40 overflow-y-auto">
 
         {/* Navigation Links */}
-        <nav className="flex-1 space-y-2 mt-4">
+        <nav className="space-y-1 mt-4">
           <Link to="/Deshboard" className="flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 rounded-xl font-bold tracking-wide transition-colors">
             <LayoutDashboard className="w-5 h-5" />
             Dashboard
@@ -42,6 +42,42 @@ const Home = ({ isLoading = false }) => {
             Projects
           </Link>
         </nav>
+
+        {/* Placement Tracks Section */}
+        <div className="mt-6 space-y-3">
+          <div className="flex items-center gap-2 px-3">
+            <Rocket className="w-3.5 h-3.5 text-orange-500" />
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+              Placement Tracks
+            </span>
+            <div className="flex-1 h-px bg-gradient-to-r from-orange-200 to-transparent"></div>
+          </div>
+
+          <nav className="space-y-1">
+            {[
+              { icon: <Code className="w-4 h-4" />, name: "DSA Track", path: "/Dsa", gradient: "from-violet-500 to-purple-600", bg: "bg-violet-100", text: "text-violet-600" },
+              { icon: <Monitor className="w-4 h-4" />, name: "Dev Track", path: "/web-development", gradient: "from-blue-500 to-cyan-500", bg: "bg-blue-100", text: "text-blue-600" },
+              { icon: <BrainCircuit className="w-4 h-4" />, name: "AI / ML", path: "/AIML", gradient: "from-pink-500 to-rose-500", bg: "bg-pink-100", text: "text-pink-600" },
+              { icon: <Server className="w-4 h-4" />, name: "System Design", path: "/system-design", gradient: "from-emerald-500 to-teal-500", bg: "bg-emerald-100", text: "text-emerald-600" },
+              { icon: <Settings className="w-4 h-4" />, name: "DevOps", path: "/devops", gradient: "from-amber-500 to-orange-500", bg: "bg-amber-100", text: "text-amber-600" },
+              { icon: <BookOpen className="w-4 h-4" />, name: "Core Subjects", path: "/core-subjects", gradient: "from-indigo-500 to-blue-600", bg: "bg-indigo-100", text: "text-indigo-600" },
+            ].map((track, index) => (
+              <Link
+                key={index}
+                to={track.path}
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold tracking-wide transition-all duration-200 group"
+              >
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${track.bg} transition-all duration-200 group-hover:scale-105`}>
+                  <span className={track.text}>{track.icon}</span>
+                </div>
+                <span className="text-sm">{track.name}</span>
+                <svg className="w-3.5 h-3.5 ml-auto text-slate-300 group-hover:text-slate-500 transition-all group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            ))}
+          </nav>
+        </div>
 
         {/* Promotional Card */}
         <div className="mt-auto bg-gradient-to-br from-orange-50 to-yellow-50 border border-orange-100 p-5 rounded-2xl shadow-sm relative overflow-hidden">

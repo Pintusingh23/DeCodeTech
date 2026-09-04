@@ -111,7 +111,7 @@ const Dsa = () => {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-['Space_Grotesk'] relative overflow-hidden text-slate-900">
-      
+
       {/* Background Decor */}
       <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(#E2E8F0 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
       <motion.div className="absolute top-20 right-[10%] text-slate-100 font-mono font-black pointer-events-none select-none text-[120px]" animate={{ y: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}>{"[ ]"}</motion.div>
@@ -120,7 +120,7 @@ const Dsa = () => {
       {/* ===== HERO ===== */}
       <section className="relative pt-32 pb-20 px-6 sm:px-12 z-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
+
           {/* Left */}
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }} className="space-y-8">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }}>
@@ -133,11 +133,11 @@ const Dsa = () => {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]">
               Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600">DSA</span> the Right Way
             </h1>
-            
+
             <p className="text-slate-600 text-lg md:text-xl max-w-lg leading-relaxed font-medium">
               The ultimate roadmap to cracking top tech interviews. Learn through lectures, practice in the lab, and conquer the DSA sheet.
             </p>
-            
+
             <motion.div className="flex flex-wrap gap-3 pt-2" variants={containerVariants} initial="hidden" animate="visible">
               {topics.map((t, i) => (
                 <motion.div key={i} variants={itemVariants} className="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-full text-sm font-semibold text-slate-600 shadow-sm hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 cursor-default">
@@ -150,7 +150,7 @@ const Dsa = () => {
           {/* Right: algorithm visualization */}
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.2 }} className="relative flex justify-center lg:justify-end">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-tr from-blue-500/20 to-indigo-500/20 rounded-full blur-[80px] pointer-events-none" />
-            
+
             <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="relative w-full max-w-[440px] bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-slate-200 overflow-hidden">
               <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 border-b border-slate-100">
                 <div className="w-3 h-3 rounded-full bg-red-400" />
@@ -191,17 +191,17 @@ const Dsa = () => {
             <motion.div key={course.id} variants={cardVariants} className="h-full">
               <Link to={course.path} className="group block h-full outline-none">
                 <div className={`relative flex flex-col h-full bg-white rounded-2xl border ${course.borderAccent} p-6 lg:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1.5`}>
-                  
+
                   <div className="flex justify-between items-start mb-6">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${course.color} flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300`}>
                       <course.icon className="w-6 h-6 text-white" />
                     </div>
                     <span className={`text-[10px] font-bold uppercase tracking-wider ${course.bgAccent} px-3 py-1 rounded-full`}>{course.level}</span>
                   </div>
-                  
+
                   <h3 className="text-xl font-bold text-slate-900 mb-3">{course.title}</h3>
                   <p className="text-slate-500 text-sm leading-relaxed mb-8 flex-1">{course.description}</p>
-                  
+
                   <div className="flex items-center gap-6 mb-8 bg-slate-50 p-4 rounded-xl border border-slate-100">
                     <div className="flex items-center text-slate-600 text-xs font-semibold">
                       <BookOpen className="w-4 h-4 mr-2 text-slate-400" />
@@ -212,14 +212,14 @@ const Dsa = () => {
                       {loading && course.id !== 'sheet' ? <span className="w-8 h-3 bg-slate-200 rounded animate-pulse" /> : stats[course.id]?.duration || '0m'}
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-slate-800 font-bold text-sm mt-auto">
                     <span>Start Learning</span>
                     <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-slate-900 group-hover:border-slate-900 group-hover:text-white transition-all duration-300">
                       <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
                     </div>
                   </div>
-                  
+
                 </div>
               </Link>
             </motion.div>
